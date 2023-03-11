@@ -1,3 +1,3 @@
-import { isExpensive } from "./test";
+import { main } from "./part-01";
 
-console.log(isExpensive(100));
+console.log(main());
