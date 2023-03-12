@@ -1,19 +1,46 @@
-import { cart, Item } from "./cart";
+import { cart } from "./cart";
 
-type MyItem = Pick<Item, "name" | "price" | "quantity">;
+type Keys = "name" | "price" | "quantity" | "outOfStock";
+
+type Menu = {
+  list: Array<Record<Keys, string | boolean | number>>;
+  totalCount: number;
+  totalPrice: number;
+};
 
 export const calcList = () => {
-  const list: MyItem[] = [];
-
-  let totalCount: number = 0;
-  let totalPrice: number = 0;
+  let menu: Menu = {
+    list: [],
+    totalCount: 0,
+    totalPrice: 0,
+  };
 
   for (let i = 0; i < cart.length; i += 1) {
-    list.push({ name: cart[i].name, price: cart[i].price, quantity: cart[i].quantity });
+    if (cart[i].outOfStock) {
+      menu.list.push({
+        name: `${cart[i].name} (재고 없음)`,
+        price: cart[i].price,
+        quantity: cart[i].quantity,
+        outOfStock: cart[i].outOfStock,
+      });
+      continue;
+    }
 
-    totalCount += cart[i].quantity;
-    totalPrice += cart[i].quantity * cart[i].price;
+    menu.list.push({
+      name: cart[i].name,
+      price: cart[i].price,
+      quantity: cart[i].quantity,
+      outOfStock: cart[i].outOfStock,
+    });
   }
 
-  console.log(list, "\n총 합: ", `${totalCount} 상자`, "\n총 금액: ", `${totalPrice}원`);
+  for (let i = 0; i < cart.length; i += 1) {
+    if (!cart[i].outOfStock) menu.totalCount += cart[i].quantity;
+  }
+
+  for (let i = 0; i < cart.length; i += 1) {
+    if (!cart[i].outOfStock) menu.totalPrice += cart[i].quantity * cart[i].price;
+  }
+
+  console.log(menu);
 };
