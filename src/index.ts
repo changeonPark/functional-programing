@@ -1,3 +1,3 @@
-import { main } from "./part-01";
+import { main } from "./ch02";
 
 console.log(main());
