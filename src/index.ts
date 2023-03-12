@@ -18,11 +18,13 @@ const array = [
   },
 ];
 
+console.time("performance");
 console.log(
   map<{ id: number; name: string }, string>(array, (item, index) => {
     console.log("index: ", index);
     return item.name;
   })
 );
+console.timeEnd("performance");
 
 calcList();
