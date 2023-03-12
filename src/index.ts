@@ -18,6 +18,11 @@ const array = [
   },
 ];
 
-console.log(map<{ id: number; name: string }, string>(array, item => item.name));
+console.log(
+  map<{ id: number; name: string }, string>(array, (item, index) => {
+    console.log("index: ", index);
+    return item.name;
+  })
+);
 
 calcList();
