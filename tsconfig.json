@@ -8,10 +8,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["./src/*"]
-    }
+    "baseUrl": "./src"
   },
   "ts-node": {
     "esm": true
