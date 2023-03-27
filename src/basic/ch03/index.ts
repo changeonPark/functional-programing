@@ -31,35 +31,33 @@ const item = (item: Item): Menu => {
 };
 
 const cart = (list: Array<Item>): Menu[] => {
-  let result: Menu[] = [];
-
-  for (let i = 0; i < list.length; i += 1) {
-    result.push(item(list[i]));
-  }
-
-  return result;
+  return (
+    list
+      //1. 목록에 있는 아이템 배열로 만들기
+      .map(item)
+  );
 };
 
 const totalCalculator = (list: Array<Item>, getValue: (item: Item) => number) => {
-  let total = 0;
-
-  for (let i = 0; i < list.length; i += 1) {
-    if (!list[i].outOfStock) {
-      total += getValue(list[i]);
-    }
-  }
-
-  return total;
+  return (
+    list
+      // 1. 재고가 있는 상품만 분류
+      .filter(item => item.outOfStock === false)
+      // 2. 분류된 상품등레 대해서 getValue 실행
+      .map(getValue)
+      // 3. getValue로 반환받은 값 모두 더하기
+      .reduce((total, value) => total + value, 0)
+  );
 };
 
 const totalPrice = (list: Array<Item>): string => {
-  let totalPrice = totalCalculator(list, item => item.price * item.quantity);
+  const totalPrice = totalCalculator(list, item => item.price * item.quantity);
 
   return `총 금액: ${totalPrice}원`;
 };
 
 const totalCount = (list: Array<Item>): string => {
-  let totalCount = totalCalculator(list, item => item.quantity);
+  const totalCount = totalCalculator(list, item => item.quantity);
 
   return `총 수량: ${totalCount}개`;
 };
