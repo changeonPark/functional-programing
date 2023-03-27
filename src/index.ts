@@ -1,7 +1,7 @@
 // import { main } from "./ch02";
 import { calcList } from "./ch03";
 
-import { map } from "./ch03/higher-order-function";
+import { map } from "ch03/higher-order-function";
 
 const array = [
   {

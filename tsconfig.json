@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "CommonJS",
-    "outDir": "build",
-    "rootDir": "src",
-    "strict": true,
+    "target": "ESNext",
     "esModuleInterop": true,
+    "module": "CommonJS",
     "moduleResolution": "node",
+    "outDir": "build",
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "ts-node": {
     "esm": true
