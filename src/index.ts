@@ -1,5 +1,5 @@
 // import { main } from "./ch02";
-import { map } from "basic/ch03/higher-order-function";
+// import { map } from "basic/ch03/higher-order-function";
 import { myCart } from "basic/ch03";
 import { cart } from "basic/ch03/cart";
 

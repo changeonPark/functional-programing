@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
     "esModuleInterop": true,
+    "target": "ESNext",
     "module": "CommonJS",
     "moduleResolution": "node",
     "outDir": "build",
     "strict": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
+    "removeComments": true,
+    "isolatedModules": true,
     "baseUrl": "./src"
   },
-  "ts-node": {
-    "esm": true
-  },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules/**"]
 }

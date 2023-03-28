@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc --build",
-    "clean": "tsc --build --clean"
+    "build": "rm -rf build && tsc --module ESNext --outDir build"
   },
   "keywords": [],
   "author": "",
