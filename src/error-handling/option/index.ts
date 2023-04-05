@@ -8,8 +8,8 @@ type Menu = {
 
 const stockItem = (item: Item): Menu => {
   return {
-    name: item.name,
-    price: item.price,
+    name: `${item.name}${item.discountPrice ? ` 할인쿠폰: ${item.discountPrice}원` : ""}`,
+    price: item.discountPrice ? item.price - item.discountPrice : item.price,
     quantity: item.quantity,
   };
 };
@@ -52,8 +52,11 @@ const totalCalculator = (list: Array<Item>, getValue: (item: Item) => number) =>
 
 const totalPrice = (list: Array<Item>): string => {
   const totalPrice = totalCalculator(list, item => item.price * item.quantity);
+  const totalDiscountPrice = totalCalculator(list, item =>
+    item.discountPrice ? item.discountPrice * item.quantity : 0
+  );
 
-  return `총 금액: ${totalPrice}원 (총 XX원 할인)`;
+  return `총 금액: ${totalPrice - totalDiscountPrice}원(총 ${totalDiscountPrice}원 할인)`;
 };
 
 const totalCount = (list: Array<Item>): string => {
