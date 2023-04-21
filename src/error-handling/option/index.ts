@@ -1,4 +1,5 @@
 import type { Item } from './cart'
+import * as O from './option'
 
 type Menu = {
   name: string
@@ -7,9 +8,15 @@ type Menu = {
 }
 
 const stockItem = (item: Item): Menu => {
+  const optionDiscountPrice = O.fromUndefined(item.discountPrice)
+  const discountPrice = O.getOrElse(optionDiscountPrice, 0)
+
+  // 값이 있는지 없는지 여부 확인
+  console.log(`${item.name} is Some? : `, O.isSome(optionDiscountPrice))
+
   return {
-    name: `${item.name}${item.discountPrice ? ` 할인쿠폰: ${item.discountPrice}원` : ''}`,
-    price: item.discountPrice ? item.price - item.discountPrice : item.price,
+    name: `${item.name}${discountPrice ? ` - 할인쿠폰: ${discountPrice}원` : ''}`,
+    price: discountPrice ? item.price - discountPrice : item.price,
     quantity: item.quantity,
   }
 }
@@ -52,9 +59,11 @@ const totalCalculator = (list: Array<Item>, getValue: (item: Item) => number) =>
 
 const totalPrice = (list: Array<Item>): string => {
   const totalPrice = totalCalculator(list, (item) => item.price * item.quantity)
-  const totalDiscountPrice = totalCalculator(list, (item) =>
-    item.discountPrice ? item.discountPrice * item.quantity : 0
-  )
+  const totalDiscountPrice = totalCalculator(list, (item) => {
+    // return item.discountPrice ? item.discountPrice * item.quantity : 0
+    const discountPrice = O.getOrElse(O.fromUndefined(item.discountPrice), 0)
+    return discountPrice * item.quantity
+  })
 
   return `총 금액: ${totalPrice - totalDiscountPrice}원(총 ${totalDiscountPrice}원 할인)`
 }

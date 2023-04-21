@@ -24,3 +24,15 @@ export const none = <A>(): Option<A> => ({
 export const isSome = <A>(option: Option<A>): option is Some<A> => option._tag === 'Some'
 
 export const isNone = <A>(option: Option<A>): option is None => option._tag === 'None'
+
+export const fromUndefined = <A>(a: A | undefined): Option<A> => {
+  if (a === undefined) return none()
+  return some(a)
+}
+
+export const getOrElse = <A>(oa: Option<A>, defaultValue: A): A => {
+  // 값이 없으면 지정된 값을 사용한다.
+  if (isNone(oa)) return defaultValue
+  // 값이 있다면 해당 값을 사용한다.
+  return oa.value
+}
