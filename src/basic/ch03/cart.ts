@@ -1,31 +1,31 @@
 export interface Item {
-  code: string;
-  outOfStock: boolean;
-  name: string;
-  price: number;
-  quantity: number;
+  code: string
+  outOfStock: boolean
+  name: string
+  price: number
+  quantity: number
 }
 
 export const cart: Array<Item> = [
   {
-    code: "tomato",
+    code: 'tomato',
     outOfStock: false,
-    name: "토마토",
+    name: '토마토',
     price: 7000,
     quantity: 2,
   },
   {
-    code: "orange",
+    code: 'orange',
     outOfStock: true,
-    name: "오렌지",
+    name: '오렌지',
     price: 15000,
     quantity: 3,
   },
   {
-    code: "apple",
+    code: 'apple',
     outOfStock: false,
-    name: "사과",
+    name: '사과',
     price: 10000,
     quantity: 1,
   },
-];
+]

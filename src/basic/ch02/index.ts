@@ -1,22 +1,22 @@
 function getPrice(name: string): number | undefined {
-  if (name === "tomato") {
-    return 7000;
-  } else if (name === "orange") {
-    return 15000;
-  } else if (name === "apple") {
-    return 10000;
+  if (name === 'tomato') {
+    return 7000
+  } else if (name === 'orange') {
+    return 15000
+  } else if (name === 'apple') {
+    return 10000
   }
 }
 
 const isExpensive = (price: number | undefined): boolean => {
   if (price === undefined) {
-    return false;
+    return false
   }
-  return price > 10000;
-};
+  return price > 10000
+}
 
 function isExpensivePrice(name: string): boolean {
-  return isExpensive(getPrice(name));
+  return isExpensive(getPrice(name))
 }
 
 /**
@@ -28,11 +28,11 @@ function isExpensivePrice(name: string): boolean {
 const compose =
   <X, Y, R>(g: (y: Y) => R, f: (s: X) => Y) =>
   (x: X): R => {
-    return g(f(x));
-  };
+    return g(f(x))
+  }
 
-const test = compose<string, number | undefined, boolean>(isExpensive, getPrice)("tomato");
+const test = compose<string, number | undefined, boolean>(isExpensive, getPrice)('tomato')
 
 export const main = () => {
-  return test;
-};
+  return test
+}
