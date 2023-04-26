@@ -12,10 +12,21 @@ const stockItem = (item: Item): Menu => {
   const discountPrice = O.getOrElse(optionDiscountPrice, 0)
 
   // 값이 있는지 없는지 여부 확인
-  console.log(`${item.name} is Some? : `, O.isSome(optionDiscountPrice))
+  // console.log(`${item.name} is Some? : `, O.isSome(optionDiscountPrice), optionDiscountPrice)
+
+  // const saleText = O.getOrElse(
+  //   O.map(optionDiscountPrice, (discountPrice) => ` - 할인쿠팡: ${discountPrice}원`),
+  //   ''
+  // )
+
+  const saleText = O.mapOrElse(
+    optionDiscountPrice,
+    (discountPrice) => ` - 할인핑챙: ${discountPrice}원`,
+    ''
+  )
 
   return {
-    name: `${item.name}${discountPrice ? ` - 할인쿠폰: ${discountPrice}원` : ''}`,
+    name: `${item.name}${saleText}`,
     price: discountPrice ? item.price - discountPrice : item.price,
     quantity: item.quantity,
   }
