@@ -30,7 +30,7 @@ const isExpensive = (price: number | undefined): boolean => {
 // function isExpensivePrice(name: string): boolean {
 //   return isExpensive(getPrice(name))
 // }
-// const isExpensivePrice = compose(isExpensive, getPrice)
+const isExpensivePrice = compose(isExpensive, getPrice)
 
 const test = compose<string, number | undefined, boolean>(isExpensive, getPrice)('tomato')
 
