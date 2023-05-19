@@ -15,5 +15,5 @@
 // const { cartInfo, totalPriceInfo, totalCountInfo } = myCart(cart)
 // console.log(cartInfo, '\n', totalPriceInfo, '\n', totalCountInfo)
 
-import init from 'currying'
+import init from 'map-types'
 init()
