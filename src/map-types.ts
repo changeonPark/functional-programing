@@ -39,6 +39,25 @@ export default function main() {
   const filpedMap = flip(map)
   console.log('filp map: ', filpedMap(isEven, numbers))
 
-  const map_ = curry2(filpedMap)
-  console.log('flip curried map: ', map_(isEven)(numbers))
+  // map_ :: (A => B) => Array<A> => Array<B>
+  const map_ = curry2(flip(map))
+
+  const mapIsEven = map_(isEven)
+  console.log('mapIsEven: ', mapIsEven(numbers))
+
+  const base = O.map(O.some(2), isEven)
+  console.log('base: ', base)
+
+  const flipBase = flip(O.map)(isEven, O.some(2))
+  console.log('flipBase: ', flipBase)
+
+  const curryFlipBase = curry2(flip(O.map))(isEven)(O.some(2))
+  console.log('curryFlipBase:', curryFlipBase)
+
+  const omap = curry2(flip(O.map))
+  // optionIsEven :: Option<number> => Obtion<boolean>
+  const optionIsEven = omap(isEven)
+
+  console.log('optionIsEven: ', optionIsEven(O.some(2)))
+  console.log('optionIsEven: ', optionIsEven(O.none()))
 }
