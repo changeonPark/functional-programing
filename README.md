@@ -7,4 +7,35 @@
   - `g, h, i`
 - 변수명은 주로 `x, y, z` 등을 사용 -> 수학 변수와 비슷하게 사용
 
-macbook m2 pro init
+## try catch
+
+- 순수 함수가 아님
+- `try catch`문의 `catch`와 `throw`도 side effect를 발생시키기 때문에 함수 합성 어려움
+
+## 참조 투명성
+
+> 표현식을 그것을 평가한 값으로 대체 혹은 반대로 값을 표현식으로 대체하더라도 프로그램의 동작이 변하지 않아야 함
+
+**동일한 입력에 대한 표현식(expression)의 값을 항상 동일 및 해당 평가(evaluation)에 부수효과(side effect)가 없어야 한다**
+
+![표현식(Expression)](/assets/image.png)
+
+```js
+// 참조가 투명한 경우
+const w = 2
+const x = 3
+const y = w * x
+const z = 3 - (y - y) + w // 5
+// === 3 - ((w * x) - (w * x)) + w 
+
+/**
+ * 참조가 불투명한 경우
+ * 1. 콘솔이 찍히는 경우
+ * 2. 전역 변수를 수정하는 경우
+ * 3. 클래스의 값을 수정하는 경우
+ * etc...
+**/
+let n = 0
+n = n + 1 // n = 1
+n = n + 1 // n = 2
+```
