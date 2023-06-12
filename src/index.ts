@@ -15,5 +15,8 @@
 // const { cartInfo, totalPriceInfo, totalCountInfo } = myCart(cart)
 // console.log(cartInfo, '\n', totalPriceInfo, '\n', totalCountInfo)
 
-import init from 'map-types'
+// import init from 'map-types'
+
+import init from './try-catch'
+
 init()
