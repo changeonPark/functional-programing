@@ -21,7 +21,7 @@ export const cart: Array<Item> = [
     outOfStock: true,
     name: '오렌지',
     price: 15000,
-    quantity: 3,
+    quantity: 0,
     discountPrice: 2000,
   },
   {
