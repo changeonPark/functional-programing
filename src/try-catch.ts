@@ -25,7 +25,7 @@ type ParsedItem = { _tag: 'parsedItem' } & Item
 type FailedParsingItem = { name: string; message: string }
 type ArrayItem = Array<Try<FailedParsingItem, ParsedItem>>
 
-const parseItem = (item: Item): Try<FailedParsingItem, ParsedItem> => {
+export const parseItem = (item: Item): Try<FailedParsingItem, ParsedItem> => {
   if (item.quantity < 1) {
     return failure({
       name: 'Item',
@@ -46,7 +46,7 @@ const parseItem = (item: Item): Try<FailedParsingItem, ParsedItem> => {
   })
 }
 
-const map = <E, A, B>(ta: Try<E, A>, f: (a: A) => B): Try<E, B> => {
+export const map = <E, A, B>(ta: Try<E, A>, f: (a: A) => B): Try<E, B> => {
   if (isFailure(ta)) return ta
   return success(f(ta.result))
 }
@@ -56,7 +56,7 @@ const errorItem = (e: FailedParsingItem): string => {
 }
 
 // Array<Try<FailedParsingItem, ParsedItem>> => Array<ParsedItem>
-const validateArrayWithFlatMap = <E, R>(tas: Array<Try<E, R>>): Array<R> => {
+export const validateArrayWithFlatMap = <E, R>(tas: Array<Try<E, R>>): Array<R> => {
   // 2번 순회 ~> 요소 변환 후 다시 순회 하며 필터링
   // const ret = tas
   //   .map((ta) => {
@@ -75,7 +75,7 @@ const validateArrayWithFlatMap = <E, R>(tas: Array<Try<E, R>>): Array<R> => {
   return ret
 }
 
-const validateArrayWithFor = <E, R>(tas: Array<Try<E, R>>): Array<R> => {
+export const validateArrayWithFor = <E, R>(tas: Array<Try<E, R>>): Array<R> => {
   const ret: Array<R> = []
   for (const ta of tas) {
     if (isSuccess(ta)) {
@@ -93,7 +93,7 @@ const validateArrayWithFor = <E, R>(tas: Array<Try<E, R>>): Array<R> => {
  * flatMap(f(a), g): Try<E, C>
  */
 // flat :: Try<E, Try<E, A>> => Try<E, A>
-const flat = <E, A>(ta: Try<E, Try<E, A>>): Try<E, A> => {
+export const flat = <E, A>(ta: Try<E, Try<E, A>>): Try<E, A> => {
   console.log('ta chek \n', ta)
   /** ta의 값
   success ? {
@@ -117,11 +117,11 @@ const flat = <E, A>(ta: Try<E, Try<E, A>>): Try<E, A> => {
   return ta.result
 }
 
-const flatMap = <E, A, B>(ta: Try<E, A>, f: (a: A) => Try<E, B>): Try<E, B> => {
+export const flatMap = <E, A, B>(ta: Try<E, A>, f: (a: A) => Try<E, B>): Try<E, B> => {
   return flat(map(ta, f))
 }
 
-const main = () => {
+export const main = () => {
   // _tag외에 다른 정보를 사용하거나 넘길 수 없음!
   // console.log('No Map: ', parseItem(cart[0]))
 

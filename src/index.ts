@@ -17,6 +17,7 @@
 
 // import init from 'map.types'
 
-import init from './try-catch'
+import { main } from './try-catch'
+// import { main } from './try-example'
 
-init()
+main()
