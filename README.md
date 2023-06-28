@@ -55,3 +55,13 @@ Try의 `Map || FlatMap`을 사용하는 경우
 > 부수 효과가 동반되지 않는 인자를 사용하는 함수에 부수 효과가 포함된 타입의 인자를 사용할 경우
 
 사용하려는 함수의 `Return Type`이 동일한 부수 효과를 발생하는 경우: **`FlatMap`**
+
+## Asynchronous
+
+### continuation-passing style -> CPS
+
+- 예외와 백트래킹, 스레드, 제네레이터(generator)등의 제어 구조를 추가할 수 있다
+- 프로시저는 리턴 값으로 호출 가능한 콜백을 받는다.
+- 컨티뉴에이션은 퍼스트-클래스 리턴 포인트(first-class return point)이다
+
+### direct style

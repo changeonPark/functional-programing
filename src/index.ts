@@ -17,7 +17,8 @@
 
 // import init from 'map.types'
 
-import { main } from './try-catch'
+// import { main } from './try-catch'
 // import { main } from './try-example'
+import { main } from './asynchronous'
 
 main()
