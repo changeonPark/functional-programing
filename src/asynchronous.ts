@@ -41,9 +41,11 @@ const resolve = <A>(a: A): Async<A> => {
 
 // Monad 구현 예제, callback으로 결과를 반환하는 특징.
 // https://chat.openai.com/share/e7e7660a-8272-4ea2-996d-1bdd73246bb6
-const flatMap = <A, B>(a: Async<A>, f: (a: A) => Async<B>): Async<B> => {
+const flatMap = <A, B>(a: Async<A>, f: (x: A) => Async<B>): Async<B> => {
   return (ret) => {
+    console.log('faltMpa ret: ', ret.toString())
     a((x) => {
+      console.log('faltMpa x: ', x)
       const b = f(x)
       b((y) => ret(y))
     })
@@ -61,6 +63,7 @@ const run = <A>(a: Async<A>) => {
 const asnycA =
   (str: string): Async<number> =>
   (ret) => {
+    console.log('asyncA Ret', ret.toString())
     setTimeout(() => {
       console.log('call asyncA : ', str)
       ret(str.length * 2)
