@@ -26,7 +26,7 @@ const w = 2
 const x = 3
 const y = w * x
 const z = 3 - (y - y) + w // 5
-// === 3 - ((w * x) - (w * x)) + w 
+// === 3 - ((w * x) - (w * x)) + w
 
 /**
  * 참조가 불투명한 경우
@@ -34,7 +34,7 @@ const z = 3 - (y - y) + w // 5
  * 2. 전역 변수를 수정하는 경우
  * 3. 클래스의 값을 수정하는 경우
  * etc...
-**/
+ **/
 let n = 0
 n = n + 1 // n = 1
 n = n + 1 // n = 2
@@ -47,7 +47,7 @@ n = n + 1 // n = 2
 `Try<E, R>`: **어떤 에러가 발생했는지** 그 내용도 중요할 때
 
 > `Option`을 사용하는 곳에 `Try` 사용은 OK
-> 
+>
 > 정보가 많아지면 신경 써야할 것도 많아짐 ~> 상황에 맞게 필요한 만큼 사용
 
 Try의 `Map || FlatMap`을 사용하는 경우
@@ -65,3 +65,38 @@ Try의 `Map || FlatMap`을 사용하는 경우
 - 컨티뉴에이션은 퍼스트-클래스 리턴 포인트(first-class return point)이다
 
 ### direct style
+
+### Async FlatMap
+
+```ts
+const a = asnycA('hello')
+const b = flatMap(a, (x) => asnycB(x))
+```
+
+위 코드의 동작 원리를 이해하기 위해 아래 작성됨
+
+```ts
+const asnycA =
+  (str: string): Async<number> =>
+  (ret) => {
+    setTimeout(() => {
+      console.log('call asyncA : ', str)
+      ret(str.length * 2)
+    }, 500)
+  }
+```
+
+위 `asyncA`의 `callback` 함수 `(ret) => ...`는
+
+```ts
+const flatMap = <A, B>(a: Async<A>, f: (a: A) => Async<B>): Async<B> => {
+  return (ret) => {
+    a((x) => {
+      const b = f(x)
+      b((y) => ret(y))
+    })
+  }
+}
+```
+
+위 `asyncA`의 `ret` 함수는 `flatMap` 함수의 `a((x) => {...})`이 됨 ~> `x`의 값은 `str.length * 2`의 값인 10이 됨
