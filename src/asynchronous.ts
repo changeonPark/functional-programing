@@ -88,16 +88,47 @@ const asnycC =
     }, 500)
   }
 
+const promiseA = (str: string): Promise<number> =>
+  new Promise((resolve, reject) => {
+    if (str === '') {
+      reject('빈 문자열 nono')
+    }
+    setTimeout(() => {
+      console.log('call promiseA : ', str)
+      resolve(str.length * 2)
+    }, 500)
+  })
+
+const promiseB = (num: number): Promise<number> =>
+  new Promise((resolve, reject) => {
+    if (num === 6) {
+      reject('6 nono')
+    }
+    setTimeout(() => {
+      console.log('call promiseB : ', num)
+      resolve(num * 2)
+    }, 500)
+  })
+
+const promiseC = (num: number): Promise<number> =>
+  new Promise((resolve, reject) => {
+    if (num === 5) {
+      reject('5 nono')
+    }
+    setTimeout(() => {
+      console.log('call promiseC : ', num)
+      resolve(num * 2)
+    }, 500)
+  })
+
 export const main = () => {
   // // direct style
   // const a = id('test')
   // console.log(a)
-
   // // continuation-passing style
   // const b = cpsId('test', (x) => {
   //   console.log(x + ' cps')
   // })
-
   // callback hell
   // a('hello', (x) => {
   //   b('hello2', (y) => {
@@ -106,7 +137,7 @@ export const main = () => {
   //     })
   //   })
   // })
-
+  /*
   // Async Map, faltMap -> callback hell 탈출
   const a = asnycA('hello')
   const b = flatMap(a, (x) => asnycB(x))
@@ -119,4 +150,15 @@ export const main = () => {
   // const result = flatMap(c, (x) => resolve(console.log('result: ', x)))
   const result = map(c, (x) => console.log('result: ', x))
   run(result)
+  */
+
+  // Promise
+  // const a = promiseA('abc')
+  // const b = a.then((x) => promiseB(x))
+  // const c = b.then((x) => promiseC(x))
+
+  // const result = c.then((x) => console.log('result: ', x))
+  // result.catch((e) => console.log(e))
+
+  promiseA('test').then(promiseB).then(promiseC).then(console.log).catch(console.log)
 }

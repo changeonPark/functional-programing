@@ -100,3 +100,9 @@ const flatMap = <A, B>(a: Async<A>, f: (a: A) => Async<B>): Async<B> => {
 ```
 
 위 `asyncA`의 `ret` 함수는 `flatMap` 함수의 `a((x) => {...})`이 됨 ~> `x`의 값은 `str.length * 2`의 값인 10이 됨
+
+### Promise
+
+`Promise`는 선언과 동시에 호출도 실행(선언과 호출이 독립적임) <-> 위의 `Async`는 결과를 전달받을 `callback`이 없으면 실행 X
+
+`callback`과 `then`에 순수 함수 및 참조 투명성을 지키며 작성한다면, `Promise`에 대한 사용이 좀 더 쉬워질 것으로 보임
