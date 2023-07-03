@@ -137,6 +137,7 @@ export const main = () => {
   //     })
   //   })
   // })
+
   /*
   // Async Map, faltMap -> callback hell 탈출
   const a = asnycA('hello')
@@ -160,5 +161,17 @@ export const main = () => {
   // const result = c.then((x) => console.log('result: ', x))
   // result.catch((e) => console.log(e))
 
-  promiseA('test').then(promiseB).then(promiseC).then(console.log).catch(console.log)
+  // promiseA('test').then(promiseB).then(promiseC).then(console.log).catch(console.log)
+
+  // async await
+  ;(async () => {
+    try {
+      const a = await promiseA('abc')
+      const b = await promiseB(a)
+      const c = await promiseC(b)
+      console.log(c)
+    } catch (error) {
+      console.log(error)
+    }
+  })()
 }
