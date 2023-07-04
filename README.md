@@ -116,3 +116,18 @@ const flatMap = <A, B>(a: Async<A>, f: (a: A) => Async<B>): Async<B> => {
 실행을 미룰 수 있는 것: Lazyness ~> 함수 생성
 
 함수 생성: 계산을 서술 ~> 함수로 만들어도 값으로 바로 평가되는 것이 아닌 호출 이후에 값으로 평가 되는 것
+
+## Observable
+
+값을 한 번만 전달하는 `Promise`와 달리 여러번 전달할 수 있음
+
+`type Observer<T> = (v: T) => void`: 비동기로 발생하는 값을 구독하기 위해 외부에서 전달하는 함수
+
+`type Observable<T> => (o: Observer<T>) => void`: 값이 생성되는 비동기 작업에 Observer 전달, 비동기 작업을 실행하는 함수
+
+> `RxJS`에서는 class로 지정되어 있는 듯
+
+`Observer<B> => Observer<A>` ~> **lift** ~> `Observable<A> => Observable<B>`
+
+
+![Observable Merge](/assets/observable-merge.png)
