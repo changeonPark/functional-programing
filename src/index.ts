@@ -19,6 +19,7 @@
 
 // import { main } from './try-catch'
 // import { main } from './try-example'
-import { main } from './asynchronous'
+// import { main } from './asynchronous'
+import { main } from './observable'
 
 main()

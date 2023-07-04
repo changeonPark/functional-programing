@@ -119,7 +119,7 @@ const flatMap = <A, B>(a: Async<A>, f: (a: A) => Async<B>): Async<B> => {
 
 ## Observable
 
-값을 한 번만 전달하는 `Promise`와 달리 여러번 전달할 수 있음
+값을 한 번만 전달하는 `Promise`와 달리 여러번 전달할 수 있음 ~> `resolve`나 `reject` 호출 이후 추가적인 호출은 전달되지 않음
 
 `type Observer<T> = (v: T) => void`: 비동기로 발생하는 값을 구독하기 위해 외부에서 전달하는 함수
 
