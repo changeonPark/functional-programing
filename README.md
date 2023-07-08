@@ -129,5 +129,97 @@ const flatMap = <A, B>(a: Async<A>, f: (a: A) => Async<B>): Async<B> => {
 
 `Observer<B> => Observer<A>` ~> **lift** ~> `Observable<A> => Observable<B>`
 
-
 ![Observable Merge](/assets/observable-merge.png)
+
+## Iterator, Iterable, Generator
+
+Iterable은 '반복 가능한'이라는 의미로, 반복 가능한 객체를 나타냄
+
+이는 객체가 [Symbol.iterator] 메소드를 가지고 있으면 그 객체를 '반복 가능한' 객체라고 부름
+
+이 메소드는 iterator를 반환해야 하며, 이 iterator는 next 메소드를 가지고 있음
+
+이 next 메소드를 통해 반복할 수 있는 값들을 순차적으로 얻을 수 있음
+
+자바스크립트에서는 배열(Array)이 대표적인 iterable 객체, 배열의 요소들을 순회하거나, 반복하는 것이 가능하기 때문
+
+---
+
+`Generator`는 특별한 종류의 함수로, 그 이름 그대로 '생성자'라는 의미
+
+generator는 일반 함수와 다르게 함수의 실행을 중간에 멈추고 다시 시작할 수 있는 기능 보유
+
+이는 'yield'라는 키워드를 통해 가능, 이 키워드를 통해 함수의 실행을 일시 중지 및 필요할 때 다시 재개할 수 있음
+
+또한 generator는 호출할 때마다 `iterable`한 객체를 반환, 이를 통해 순회하거나 반복하는 것이 가능
+
+따라서 generator는 큰 데이터 집합을 효율적으로 처리할 수 있는 도구로 자주 사용
+
+**js**
+
+```js
+function* numberGenerator(start, end) {
+  let current = start
+  while (current <= end) {
+    yield current++
+  }
+}
+
+const numbers = numberGenerator(1, 5)
+for (let number of numbers) {
+  console.log(number) // 1, 2, 3, 4, 5 순서로 출력됩니다.
+}
+```
+
+**react**
+
+```jsx
+import React, { useState, useEffect, useMemo } from 'react'
+
+async function* fetchPage(pageSize) {
+  let page = 1
+  while (true) {
+    const response = await fetch(`/api/todos?page=${page}&size=${pageSize}`)
+    const data = await response.json()
+    if (data.length === 0) break
+    yield data
+    page += 1
+  }
+}
+
+function TodoList() {
+  const [todos, setTodos] = useState([])
+  const [error, setError] = useState(null)
+  const pages = useMemo(() => fetchPage(10), []) //Generator Prepare
+
+  useEffect(() => {
+    const loadMore = async () => {
+      try {
+        const next = await pages.next() // Generator Excute
+        if (!next.done) {
+          const newTodos = next.value
+          setTodos((oldTodos) => [...oldTodos, ...newTodos])
+        }
+      } catch (e) {
+        setError(e.message)
+      }
+    }
+
+    loadMore()
+  }, [pages]) // depend on pages
+
+  if (error) {
+    return <div>Error: {error}</div>
+  }
+
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <li key={todo.id}>{todo.text}</li>
+      ))}
+    </ul>
+  )
+}
+
+export default TodoList
+```
