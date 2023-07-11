@@ -77,7 +77,11 @@ const integers = (n: number): Array<number> => {
 }
 
 type Iterator<A> = () => A
+// 값을 return => return의 연속
 type Iterable<A> = () => Iterator<A>
+type Observer<A> = (a: A) => void
+// 값을 input => input의 연속
+type Observable<A> = (subscribe: Observer<A>) => void
 
 const integerGenerator = () => {
   let i = 0
