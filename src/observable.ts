@@ -1,4 +1,4 @@
-// import {Observable} from 'rxjs'
+import { Observable, interval, take } from 'rxjs'
 
 type Async<A> = (ret: (X: A) => void) => void
 
@@ -83,7 +83,7 @@ type Iterator<A> = () => A
 type Iterable<A> = () => Iterator<A>
 type Observer<A> = (a: A) => void
 // 값을 input => input의 연속
-type Observable<A> = (subscribe: Observer<A>) => void
+// type Observable<A> = (subscribe: Observer<A>) => void
 
 const integerGenerator = () => {
   let i = 0
@@ -109,7 +109,8 @@ const promiseIntegers = (n: number): Promise<Array<number>> =>
 // Observer(ret) = 전달된 값을 처리하는 역할
 // "Emit 한다"는 주로 이벤트 드리븐 프로그래밍 또는 반응형 프로그래밍에서 사용되며, 특정 객체나 구조가 이벤트 또는 값을 "발산" 또는 "발출"한다는 의미
 // 또한, 그 값을 외부로 보내서 다른 코드에서 그 값을 이용할 수 있도록 하는 것을 의미
-const integerObservable: Observable<number> = (ret) => {
+/*
+const integerObservable: Async<number> = (ret) => {
   const iter = integerGenerator()
 
   const timerId = setInterval(() => {
@@ -123,6 +124,27 @@ const integerObservable: Observable<number> = (ret) => {
     }
   }, 1000)
 }
+*/
+
+const integerObservable: Observable<number> = new Observable((subscriber) => {
+  const iter = integerGenerator()
+  let result
+
+  const subscription = interval(1000).subscribe(() => {
+    result = iter()
+    subscriber.next(result)
+
+    if (result >= 5) {
+      console.log('end!')
+      subscriber.complete()
+    }
+  })
+
+  // cleanup
+  return () => {
+    subscription.unsubscribe()
+  }
+})
 
 const onManyIntegers = (n: number) => {
   const arr = integers(n)
@@ -142,5 +164,11 @@ export const main = () => {
   // onStep()
   // promiseIntegers(5).then((x) => console.log(x))
 
-  integerObservable((n) => console.log(n))
+  // integerObservable((n) => console.log(n))
+
+  take(2)(integerObservable).subscribe({
+    next: (x) => {
+      console.log(x)
+    },
+  })
 }
