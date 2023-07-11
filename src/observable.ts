@@ -1,3 +1,5 @@
+// import {Observable} from 'rxjs'
+
 type Async<A> = (ret: (X: A) => void) => void
 
 const resolve = <A>(a: A): Async<A> => {
@@ -107,7 +109,7 @@ const promiseIntegers = (n: number): Promise<Array<number>> =>
 // Observer(ret) = 전달된 값을 처리하는 역할
 // "Emit 한다"는 주로 이벤트 드리븐 프로그래밍 또는 반응형 프로그래밍에서 사용되며, 특정 객체나 구조가 이벤트 또는 값을 "발산" 또는 "발출"한다는 의미
 // 또한, 그 값을 외부로 보내서 다른 코드에서 그 값을 이용할 수 있도록 하는 것을 의미
-const integerObservable: Async<number> = (ret) => {
+const integerObservable: Observable<number> = (ret) => {
   const iter = integerGenerator()
 
   const timerId = setInterval(() => {
