@@ -136,12 +136,19 @@ const integerObservable: Observable<number> = new Observable((subscriber) => {
 
     if (result >= 5) {
       console.log('end!')
+      // 옵저버블을 완료하는 역할 ~> 더 이상 값을 방출하지 않음
+      // 옵저버블의 complete 콜백이 호출되고, 이후에는 next 콜백이 호출되지 않음
+      // 주로 옵저버블이 성공적으로 완료되었음을 알리고자 할 때 사용
       subscriber.complete()
     }
   })
 
   // cleanup
   return () => {
+    console.log('cleanup')
+    // 구독을 취소하고 해당 구독과 관련된 리소스를 정리하는 역할
+    // 구독을 취소하면 옵저버블은 더 이상 값을 방출하지 않음
+    // 특정 조건이 충족되면 구독을 취소하고 싶을 때 호출해 구독을 정리함
     subscription.unsubscribe()
   }
 })
@@ -166,9 +173,17 @@ export const main = () => {
 
   // integerObservable((n) => console.log(n))
 
-  take(2)(integerObservable).subscribe({
+  // pipe
+  integerObservable.pipe(take(10)).subscribe({
     next: (x) => {
       console.log(x)
     },
   })
+
+  // currying
+  // take(10)(integerObservable).subscribe({
+  //   next: (x) => {
+  //     console.log(x)
+  //   },
+  // })
 }
