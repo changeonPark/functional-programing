@@ -21,6 +21,6 @@
 // import { main } from './try-example'
 // import { main } from './asynchronous'
 // import { main } from './observable'
-import { main } from './observer.methods'
+import { main } from './observable.methods'
 
 main()
