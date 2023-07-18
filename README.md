@@ -87,8 +87,6 @@ const asnycA =
   }
 ```
 
-위 `asyncA`의 `callback` 함수 `(ret) => ...`는
-
 ```ts
 const flatMap = <A, B>(a: Async<A>, f: (a: A) => Async<B>): Async<B> => {
   return (ret) => {
