@@ -21,6 +21,7 @@
 // import { main } from './try-example'
 // import { main } from './asynchronous'
 // import { main } from './observable'
-import { main } from './observable.methods'
+// import { main } from './observable.methods'
+import { main } from './map-review'
 
 main()

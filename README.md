@@ -1,5 +1,10 @@
 # functional-programing
 
+## 함수형 프로그래밍 핵심 개념
+
+1. 함수 합성을 통해 복잡한 프로그램을 쉽게 만들기
+2. `sideEffect`(부수효과)를 공통적인 방법으로 추상화
+
 ## 관례
 
 - 함수형 프로그래밍에서 인자로 받는 임의의 함수 명을 `f`로 사용한다.
@@ -221,3 +226,4 @@ function TodoList() {
 
 export default TodoList
 ```
+
