@@ -37,4 +37,31 @@ const optionGetLength = O.map(getLength)
 const of1 = O.map(compose(isEven)(getLength))
 const of2 = compose(O.map(isEven))(O.map(getLength))
 
+type Iterator<A> = () => A
+type Observer<A> = (a: A) => void
+type Function<A, B> = (a: A) => B
+
+const map =
+  <A, B>(f: (a: A) => B) =>
+  <R>(input: Function<R, A>): Function<R, B> => {
+    return (r) => {
+      return f(input(r))
+    }
+  }
+
+const mapIsEven = map(isEven)
+const c1 = mapIsEven(getLength)
+
+// 입력 타입에 대한 map 함수
+// pipe와 유사함
+const contraMap =
+  <A, B>(f: (a: A) => B) =>
+  <R>(input: Function<B, R>): Function<A, R> => {
+    return (a) => {
+      return input(f(a))
+    }
+  }
+
+const contraMapGetLength = contraMap(getLength)
+
 export const main = () => {}
