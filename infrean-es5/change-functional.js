@@ -43,25 +43,33 @@ for (let i = 0; i < temp_users2.length; i++) {
 
 // _filter, _map으로 리팩토링
 // 다형성이 높고, 데이터에 대한 관심사를 없앨 수 있음
-function _filter(users, predicate) {
+function _filter(list, predicate) {
   const new_list = []
-
-  for (let i = 0; i < users.length; i++) {
-    if (predicate(users[i])) {
-      new_list.push(users[i])
+  _each(list, function (val) {
+    if (predicate(val)) {
+      new_list.push(val)
     }
-  }
+  })
 
   return new_list
 }
 
 function _map(list, mapper) {
   const new_list = []
-  for (let i = 0; i < list.length; i++) {
-    new_list.push(mapper(list[i]))
-  }
+
+  _each(list, function (val) {
+    new_list.push(mapper(val))
+  })
 
   return new_list
+}
+
+function _each(list, iter) {
+  for (let i = 0; i < list.length; i++) {
+    iter(list[i])
+  }
+
+  return list
 }
 
 const over_30 = _filter(users, function (user) {
