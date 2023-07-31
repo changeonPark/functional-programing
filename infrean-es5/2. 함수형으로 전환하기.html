@@ -7,6 +7,7 @@
   </head>
   <body>
     12313
+    <script type="text/javascript" src="./_.js"></script>
     <script>
       const users = [
         { id: 1, name: "ID", age: 36 },
@@ -49,37 +50,6 @@
       const ages = []
       for (let i = 0; i < temp_users2.length; i++) {
         ages.push(temp_users2[i].age)
-      }
-
-      // _filter, _map으로 리팩토링
-      // 다형성이 높고, 데이터에 대한 관심사를 없앨 수 있음
-      function _filter(list, predicate) {
-        const new_list = []
-        _each(list, function (val) {
-          if (predicate(val)) {
-            new_list.push(val)
-          }
-        })
-
-        return new_list
-      }
-
-      function _map(list, mapper) {
-        const new_list = []
-
-        _each(list, function (val) {
-          new_list.push(mapper(val))
-        })
-
-        return new_list
-      }
-
-      function _each(list, iter) {
-        for (let i = 0; i < list.length; i++) {
-          iter(list[i])
-        }
-
-        return list
       }
 
       const over_30 = _filter(users, function (user) {
@@ -147,30 +117,6 @@
       )
 
       // currying => 함수와 인자를 다루는 기법, 함수에 인자를 하나씩 적용하다가 필요한 인자 모두 충족 시 함수 본체 실행
-      // js에서는 일급 함수 지원 및 평가 시점 자유도로 인해 currying 구현 가능
-
-      // 1. _curry, _cuuryr(curry right)
-
-      // 인자 2개를 지원하는 curry
-      function _curry(fn) {
-        return function (a, b) {
-          return arguments.length === 2
-            ? fn(a, b)
-            : function (b) {
-                return fn(a, b)
-              }
-        }
-      }
-
-      function _curryr(fn) {
-        return function (a, b) {
-          return arguments.length === 2
-            ? fn(a, b)
-            : function (b) {
-                return fn(b, a)
-              }
-        }
-      }
 
       const add = _curry(function (a, b) {
         return a + b
@@ -193,11 +139,6 @@
 
       console.log("curryr sub 5 - 10 :", sub10(5))
       console.log("sub(10, 5) : ", sub(10, 5))
-
-      // 2. _get을 만들어 간단한게 변형
-      const _get = _curryr(function (obj, key) {
-        return obj === null || obj === undefined ? undefined : obj[key]
-      })
 
       const user1 = users[0]
       console.log(
