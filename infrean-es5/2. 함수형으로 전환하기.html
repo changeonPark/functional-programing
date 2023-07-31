@@ -121,7 +121,10 @@
       const polymorphismArray = _filter([1, 2, 3, 4], function (x) {
         return x % 2
       })
-      console.log("🚀 ~ file: 2. 함수형으로 전환하기.html:124 ~ polymorphismArray ~ polymorphismArray:", polymorphismArray)
+      console.log(
+        "🚀 ~ file: 2. 함수형으로 전환하기.html:124 ~ polymorphismArray ~ polymorphismArray:",
+        polymorphismArray
+      )
 
       const polymorphismDocument = _map(
         document.querySelectorAll("*"),
@@ -129,7 +132,10 @@
           return x.nodeName
         }
       )
-      console.log("🚀 ~ file: 2. 함수형으로 전환하기.html:131 ~ polymorphismDocument:", polymorphismDocument)
+      console.log(
+        "🚀 ~ file: 2. 함수형으로 전환하기.html:131 ~ polymorphismDocument:",
+        polymorphismDocument
+      )
 
       // 내부 다형성 => predi, iter, mapper
       const polymorphismPredicate = _map([1, 2, 3, 4], function (v) {
@@ -138,6 +144,93 @@
       console.log(
         "🚀 ~ file: 2. 함수형으로 전환하기.html:136 ~ polymorphismPredicate ~ polymorphismPredicate:",
         polymorphismPredicate
+      )
+
+      // currying => 함수와 인자를 다루는 기법, 함수에 인자를 하나씩 적용하다가 필요한 인자 모두 충족 시 함수 본체 실행
+      // js에서는 일급 함수 지원 및 평가 시점 자유도로 인해 currying 구현 가능
+
+      // 1. _curry, _cuuryr(curry right)
+
+      // 인자 2개를 지원하는 curry
+      function _curry(fn) {
+        return function (a, b) {
+          return arguments.length === 2
+            ? fn(a, b)
+            : function (b) {
+                return fn(a, b)
+              }
+        }
+      }
+
+      function _curryr(fn) {
+        return function (a, b) {
+          return arguments.length === 2
+            ? fn(a, b)
+            : function (b) {
+                return fn(b, a)
+              }
+        }
+      }
+
+      const add = _curry(function (a, b) {
+        return a + b
+      })
+
+      const add10 = add(10)
+      console.log(
+        "🚀 ~ file: 2. 함수형으로 전환하기.html:166 ~ add10:",
+        add10(5)
+      )
+
+      console.log("add 5 + 3 :", add(5)(3))
+      console.log("add(5, 2) : ", add(5, 2))
+
+      const sub = _curryr(function (a, b) {
+        return a - b
+      })
+
+      const sub10 = sub(10)
+
+      console.log("curryr sub 5 - 10 :", sub10(5))
+      console.log("sub(10, 5) : ", sub(10, 5))
+
+      // 2. _get을 만들어 간단한게 변형
+      const _get = _curryr(function (obj, key) {
+        return obj === null || obj === undefined ? undefined : obj[key]
+      })
+
+      const user1 = users[0]
+      console.log(
+        "🚀 ~ file: 2. 함수형으로 전환하기.html:203 ~ user1:",
+        user1.name
+      )
+      console.log("_get : ", _get(user1, "name"))
+      console.log("curryr _get : ", _get("name")(user1))
+
+      const getName = _get("name")
+      console.log(
+        "🚀 ~ file: 2. 함수형으로 전환하기.html:211 ~ getName:",
+        getName(users[2])
+      )
+
+      console.log(
+        _map(
+          _filter(users, function (user) {
+            return user.age >= 30
+          }),
+          function (user) {
+            return user.name
+          }
+        )
+      )
+
+      console.log(
+        _map(
+          _filter(users, function (user) {
+            return user.age >= 30
+          }),
+          _get("name")
+        )
       )
     </script>
   </body>
