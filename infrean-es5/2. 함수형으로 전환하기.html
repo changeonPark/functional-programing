@@ -173,6 +173,47 @@
           _get("name")
         )
       )
+
+      console.clear()
+
+      // _reduce => Array.reduce 직접 구현해보기
+
+      // Array Like 객체를 Array처럼 slice를 사용하기 위한 함수
+      function _rest(list, num) {
+        const slice = Array.prototype.slice
+        slice.call(list, num || 1)
+      }
+
+      function _reduce(list, iters, memo) {
+        if (arguments.length === 2) {
+          memo = list[0]
+          list = _rest(list)
+        }
+
+        _each(list, function (val) {
+          memo = iters(memo, val)
+        })
+
+        return memo
+      }
+
+      /*
+       * memo = add(0, 10)
+       * memo = add(memo, 2)
+       * memo = add(memo, 3)
+       * return memo
+       */
+
+      console.log(
+        "reduce test 6이 되어야 함 : ",
+        _reduce(
+          [1, 2, 3],
+          function (a, b) {
+            return a + b
+          },
+          0
+        )
+      )
     </script>
   </body>
 </html>
