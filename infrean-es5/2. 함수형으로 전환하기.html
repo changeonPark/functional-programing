@@ -176,27 +176,6 @@
 
       console.clear()
 
-      // _reduce => Array.reduce 직접 구현해보기
-
-      // Array Like 객체를 Array처럼 slice를 사용하기 위한 함수
-      function _rest(list, num) {
-        const slice = Array.prototype.slice
-        slice.call(list, num || 1)
-      }
-
-      function _reduce(list, iters, memo) {
-        if (arguments.length === 2) {
-          memo = list[0]
-          list = _rest(list)
-        }
-
-        _each(list, function (val) {
-          memo = iters(memo, val)
-        })
-
-        return memo
-      }
-
       /*
        * memo = add(0, 10)
        * memo = add(memo, 2)
@@ -213,6 +192,57 @@
           },
           0
         )
+      )
+
+      const pipe1 = _pipe(
+        function (a) {
+          return a + 1
+        },
+        function (a) {
+          return a * 2
+        }
+      )
+
+      console.log("pipe1 : ", pipe1(1))
+
+      _go(
+        1,
+        function (a) {
+          return a + 1
+        },
+        function (a) {
+          return a * 2
+        },
+        console.log
+      )
+
+      console.log(
+        _map(
+          _filter(users, function (user) {
+            return user.age >= 30
+          }),
+          _get("name")
+        )
+      )
+
+      _go(
+        users,
+        function (users) {
+          return _filter(users, function (user) {
+            return user.age >= 30
+          })
+        },
+        function (users) {
+          return _map(users, _get("name"))
+        },
+        console.log
+      )
+
+      _go(
+        users,
+        newFilter((user) => user.age >= 30),
+        newMap(_get("name")),
+        console.log
       )
     </script>
   </body>

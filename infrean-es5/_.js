@@ -21,6 +21,9 @@ function _map(list, mapper) {
   return new_list
 }
 
+const newMap = _curryr(_map)
+const newFilter = _curryr(_filter)
+
 function _each(list, iter) {
   for (let i = 0; i < list.length; i++) {
     iter(list[i])
@@ -58,3 +61,46 @@ function _curryr(fn) {
 const _get = _curryr(function (obj, key) {
   return obj === null || obj === undefined ? undefined : obj[key]
 })
+
+// _reduce => Array.reduce 직접 구현해보기
+
+// Array Like 객체를 Array처럼 slice를 사용하기 위한 함수
+function _rest(list, num) {
+  const slice = Array.prototype.slice
+  return slice.call(list, num || 1)
+}
+
+function _reduce(list, iters, memo) {
+  if (arguments.length === 2) {
+    memo = list[0]
+    list = _rest(list)
+  }
+
+  _each(list, function (val) {
+    memo = iters(memo, val)
+  })
+
+  return memo
+}
+
+// pipe: 함수를 return
+function _pipe() {
+  const fns = arguments
+
+  return function (arg) {
+    return _reduce(
+      fns,
+      function (arg, fn) {
+        return fn(arg)
+      },
+      arg
+    )
+  }
+}
+
+// go: 즉시 실행되는 pipe 함수
+function _go(arg) {
+  const fns = _rest(arguments, 1)
+
+  return _pipe.apply(null, fns)(arg)
+}
