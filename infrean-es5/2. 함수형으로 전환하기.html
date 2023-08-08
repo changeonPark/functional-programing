@@ -244,6 +244,78 @@
         newMap(_get("name")),
         console.log
       )
+
+      // _each의 외부 다형성 높이기
+
+      // _each에 null 넣어도 에러 안나게 => _each함수에서 비교하는 list를 _get 함수로 검증 후 사용
+      _each(null, console.log)
+      console.log(_map(null, (item) => item))
+
+      // _filter, _map에 인자 2개를 전부 받는지 아닌지 확인하는 기능 추가(_js 참고)
+      _go(
+        null,
+        _filter(function (v) {
+          return v & 2
+        }),
+        _map(function (v) {
+          return v * v
+        }),
+        console.log
+      )
+
+      console.log(Object.keys({ name: "id", age: 30 }))
+      console.log(_keys([1, 2, 3, 4]))
+      console.log(_keys(10))
+      console.log(_keys(null))
+      console.clear()
+
+      _each(
+        {
+          13: "ID",
+          19: "IDX",
+          20: "ADF",
+        },
+        function (name) {
+          console.log(name)
+        }
+      )
+
+      // 인자와 함수를 잘 다루는 식으로 프로그래밍
+      // 어떤 값이 들어오던 최대한 흘러갈 수 있는 방식으로
+      console.log(
+        _map(
+          {
+            13: "ID",
+            19: "IDX",
+            20: "ADF",
+          },
+          function (name) {
+            return name.toLowerCase()
+          }
+        )
+      )
+
+      console.clear()
+
+      _go(
+        users, // null로 주입 시 빈 배열 반환 => 함수 실행에는 문제가 없음
+        _map((user) => {
+          return user.name
+        }),
+        _map((name) => {
+          return name.toLowerCase()
+        }),
+        console.log
+      )
+
+      _go(
+        { 1: users[1], 3: users[3], 5: users[5] },
+        _map((user) => {
+          console.log(user)
+          return user.name.toLowerCase()
+        }),
+        console.log
+      )
     </script>
   </body>
 </html>
