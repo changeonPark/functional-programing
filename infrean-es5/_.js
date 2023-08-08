@@ -35,11 +35,20 @@ function _map(list, mapper) {
 const newMap = _curryr(_map)
 const newFilter = _curryr(_filter)
 
-function _each(list, iter) {
-  const _length = _get("length")
+// _keys 만들기
+function _is_object(obj) {
+  return typeof obj === "object" && !!obj
+}
 
-  for (let i = 0, len = _length(list); i < len; i++) {
-    iter(list[i])
+function _keys(obj) {
+  return _is_object(obj) ? Object.keys(obj) : []
+}
+
+function _each(list, iter) {
+  const keys = _keys(list)
+
+  for (let i = 0, len = keys.length; i < len; i++) {
+    iter(list[keys[i]])
   }
 
   return list
