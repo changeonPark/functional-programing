@@ -1,7 +1,13 @@
 // _filter, _map으로 리팩토링
 // 다형성이 높고, 데이터에 대한 관심사를 없앨 수 있음
 function _filter(list, predicate) {
+  if (!predicate)
+    return function (arr2) {
+      return _filter(arr2, list)
+    }
+
   const new_list = []
+
   _each(list, function (val) {
     if (predicate(val)) {
       new_list.push(val)
@@ -12,6 +18,11 @@ function _filter(list, predicate) {
 }
 
 function _map(list, mapper) {
+  if (!mapper)
+    return function (arr2) {
+      return _map(arr2, list)
+    }
+
   const new_list = []
 
   _each(list, function (val) {
@@ -25,7 +36,9 @@ const newMap = _curryr(_map)
 const newFilter = _curryr(_filter)
 
 function _each(list, iter) {
-  for (let i = 0; i < list.length; i++) {
+  const _length = _get("length")
+
+  for (let i = 0, len = _length(list); i < len; i++) {
     iter(list[i])
   }
 
