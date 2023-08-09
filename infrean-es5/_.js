@@ -126,3 +126,15 @@ function _go(arg) {
 
   return _pipe.apply(null, fns)(arg)
 }
+
+function _identitiy(val) {
+  return val
+}
+
+const _values = _map(_identitiy)
+
+function _pluck(data, key) {
+  return _map(data, (obj) => {
+    return obj[key]
+  })
+}
