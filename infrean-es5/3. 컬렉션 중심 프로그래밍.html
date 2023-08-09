@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="text/javascript" src="./_.js"></script>
+    <script>
+      const users = [
+        { id: 1, name: "ID", age: 36 },
+        { id: 2, name: "BJ", age: 32 },
+        { id: 3, name: "JM", age: 32 },
+        { id: 4, name: "PJ", age: 27 },
+        { id: 5, name: "HA", age: 25 },
+        { id: 6, name: "JE", age: 26 },
+        { id: 7, name: "JI", age: 31 },
+        { id: 8, name: "MP", age: 23 },
+      ]
+
+      // 컬렉션 중심 프로그래밍의 4가지 유형과 함수
+
+      // 1. 수집 - map
+
+      // 1-1. values
+      const a = 10
+      console.log(_identitiy(a))
+
+      console.log(_values(users[0]))
+
+      // 1-2. pluck
+      function _pluck(data, key) {
+        return _map(data, _get(key))
+      }
+
+      console.log(_pluck(users, "age"));
+
+      // 2. 거르기 - filter
+      // 2-1. reject
+      // 2-2. compact
+      // 2-3. without
+
+      // 3. 찾기 - find
+      // 3-1. some
+      // 3-2. every
+
+      // 4. 접기(축약) - reduce
+      // 4-1. min
+      // 4-2. max
+      // 4-3. group_by
+      // 4-4. count_by
+    </script>
+  </body>
+</html>
