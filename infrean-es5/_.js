@@ -148,9 +148,9 @@ function _negate(func) {
 }
 
 // data 중 predicate 조건을 만족하지 않는 값을 배열로 반환
-function _reject(data, predicate) {
+const _reject = _curryr((data, predicate) => {
   return _filter(data, _negate(predicate))
-}
+})
 
 // data 중 truty 한 값 반환
 function _compact(data) {
@@ -187,3 +187,19 @@ function _some(data, predicate) {
 function _every(data, predicate) {
   return _find_index(data, _negate(predicate || _identitiy)) === -1
 }
+
+function _min(data) {
+  return _reduce(data, (a, b) => (a < b ? a : b))
+}
+
+function _max(data) {
+  return _reduce(data, (a, b) => (a > b ? a : b), 0)
+}
+
+const _min_by = _curryr(function (data, iter) {
+  return _reduce(data, (a, b) => (iter(a) < iter(b) ? a : b))
+})
+
+const _max_by = _curryr((data, iter) => {
+  return _reduce(data, (a, b) => (iter(a) > iter(b) ? a : b))
+})

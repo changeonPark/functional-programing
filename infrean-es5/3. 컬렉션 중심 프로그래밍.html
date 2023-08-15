@@ -12,11 +12,11 @@
         { id: 1, name: "ID", age: 36 },
         { id: 2, name: "BJ", age: 32 },
         { id: 3, name: "JM", age: 30 },
-        { id: 4, name: "PJ", age: 27 },
+        { id: 4, name: "PJ", age: 10 },
         { id: 5, name: "HA", age: 25 },
         { id: 6, name: "JE", age: 26 },
         { id: 7, name: "JI", age: 31 },
-        { id: 8, name: "MP", age: 23 },
+        { id: 8, name: "MP", age: 40 },
       ]
 
       // 컬렉션 중심 프로그래밍의 4가지 유형과 함수
@@ -71,10 +71,44 @@
       console.log("none callback every: ", _every([null, 2, 3]))
 
       // 4. 접기(축약) - reduce
+      // 평가 순서와 상관없이 결과를 만들 수 있는 방식으로 사고하자.
+
       // 4-1. min
+      const arr = [1, 2, 3, 10, -4, -11]
+
+      console.log("min: ", _min(arr))
+
       // 4-2. max
-      // 4-3. group_by
-      // 4-4. count_by
+      console.log("max: ", _max(arr))
+
+      // min_by, max_by: min, max에 비해 다형성 상승
+
+      // 4-3. min_by
+      console.log("min_by: ", _min_by(arr, Math.abs))
+      // 4-4. max_by
+      console.log("max_by: ", _max_by(arr, Math.abs))
+
+      console.log(_max_by(users, (user) => user.age))
+      console.log(_min_by(users, (user) => user.age))
+
+      _go(
+        users,
+        _filter((user) => user.age > 30),
+        _min_by((user) => user.age),
+        _get("age"),
+        console.log
+      )
+
+      _go(
+        users,
+        _reject((user) => user.age > 30),
+        _min_by((user) => user.age),
+        _get("name"),
+        console.log
+      )
+
+      // 4-5. group_by
+      // 4-6. count_by
     </script>
   </body>
 </html>
