@@ -133,8 +133,23 @@ function _identitiy(val) {
 
 const _values = _map(_identitiy)
 
+// object 내부의 지정된 key의 values를 배열로 반환
 function _pluck(data, key) {
   return _map(data, (obj) => {
     return obj[key]
   })
+}
+
+function _negate(func) {
+  return function (val) {
+    return !func(val)
+  }
+}
+
+function _reject(data, predicate) {
+  return _filter(data, _negate(predicate))
+}
+
+function _compact(data) {
+  return _filter(data, _identitiy)
 }
