@@ -37,13 +37,38 @@
       // 2-1. reject
       console.log(_reject(users, (user) => user.age >= 30))
       // 2-2. compact
-      console.log(_compact([1, 2, 0, false, null, {}]))
+      console.log("compact : ", _compact([1, 2, 0, false, null, {}]))
 
       // 3. 찾기 - find
-      console.log(_find(users, (user) => user.age < 30))
+      console.log(
+        "find : ",
+        _find(users, (user) => user.age < 30)
+      )
+
+      _go(
+        users,
+        _find((user) => user.id === 5),
+        console.log
+      )
       // 3-1. findIndex
+      _go(
+        users,
+        _find_index((user) => user.id === 5),
+        console.log
+      )
       // 3-1. some
+      console.log(
+        "some: ",
+        _some([1, 2, 5, 10, 20], (val) => val > 10)
+      )
       // 3-2. every
+      console.log(
+        "every: ",
+        _every([1, 2, 5, 10, 20], (val) => val > 10)
+      )
+
+      console.log("none callback some: ", _some([1, 2, 3]))
+      console.log("none callback every: ", _every([null, 2, 3]))
 
       // 4. 접기(축약) - reduce
       // 4-1. min

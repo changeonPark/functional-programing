@@ -157,12 +157,33 @@ function _compact(data) {
   return _filter(data, _identitiy)
 }
 
-// 조건에 만족하는 첫 번째 값 반환
-function _find(list, predicate) {
+// 조건에 만족하는 첫 번째 값 반환, 없으면 undefined
+const _find = _curryr(function (list, predicate) {
   const keys = _keys(list)
 
   for (let i = 0, len = keys.length; i < len; i++) {
     const value = list[keys[i]]
     if (predicate(value)) return value
   }
+})
+
+// 조건에 만족하는 첫 번째 값의 index 반환, 없으면 -1
+const _find_index = _curryr(function (list, predicate) {
+  const keys = _keys(list)
+
+  for (let i = 0, len = keys.length; i < len; i++) {
+    if (predicate(list[keys[i]])) return i
+  }
+
+  return -1
+})
+
+// 조건에 부합하는 값이 1개라도 있으면 true
+function _some(data, predicate) {
+  return _find_index(data, predicate || _identitiy) !== -1
+}
+
+// 모든 값이 조건에 부합해야 true
+function _every(data, predicate) {
+  return _find_index(data, _negate(predicate || _identitiy)) === -1
 }
