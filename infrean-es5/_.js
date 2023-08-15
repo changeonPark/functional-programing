@@ -140,16 +140,29 @@ function _pluck(data, key) {
   })
 }
 
+// callback의 조건과 반대되는 값 반환
 function _negate(func) {
   return function (val) {
     return !func(val)
   }
 }
 
+// data 중 predicate 조건을 만족하지 않는 값을 배열로 반환
 function _reject(data, predicate) {
   return _filter(data, _negate(predicate))
 }
 
+// data 중 truty 한 값 반환
 function _compact(data) {
   return _filter(data, _identitiy)
+}
+
+// 조건에 만족하는 첫 번째 값 반환
+function _find(list, predicate) {
+  const keys = _keys(list)
+
+  for (let i = 0, len = keys.length; i < len; i++) {
+    const value = list[keys[i]]
+    if (predicate(value)) return value
+  }
 }
