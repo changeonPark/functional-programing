@@ -32,6 +32,8 @@ function _map(list, mapper) {
   return new_list
 }
 
+const _pairs = _map((value, key) => [key, value])
+
 const newMap = _curryr(_map)
 const newFilter = _curryr(_filter)
 
@@ -234,5 +236,3 @@ function _inc(count, key) {
 const _count_by = _curryr((data, iterator) =>
   _reduce(data, (count, value) => _inc(count, iterator(value)), {})
 )
-
-const _pairs = _map((value, key) => [key, value])
