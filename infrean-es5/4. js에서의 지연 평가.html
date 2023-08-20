@@ -19,8 +19,47 @@
         { id: 8, name: "PJ", age: 40 },
       ]
 
+      let mi = 0
+      let fi = 0
+
       // 지연 평가를 시작 시키고 유지(이어 가는)하는 함수
       // map
+      _.go(
+        // 길이가 100인 배열을 인덱스 값으로 초기화 후 생성
+        _.range(100),
+        _.map((val) => {
+          mi++
+          return val * val
+        }),
+        _.filter((val) => {
+          fi++
+          return val % 2
+        }),
+        L.some((val) => val > 100),
+        console.log
+      )
+      console.log(mi, fi)
+
+      mi = 0
+      fi = 0
+
+      // 지연 평가
+      _.go(
+        // 길이가 100인 배열을 인덱스 값으로 초기화 후 생성
+        _.range(100),
+        L.map((val) => {
+          mi++
+          return val * val
+        }),
+        L.filter((val) => {
+          fi++
+          return val % 2
+        }),
+        L.some((val) => val > 100),
+        console.log
+      )
+      console.log(mi, fi)
+
       // filter, reject
 
       // 끝을 내는 함수
