@@ -8,22 +8,11 @@
   <body>
     <script type="text/javascript" src="js/partial.js"></script>
     <script>
-      const users = [
-        { id: 1, name: "ID", age: 36 },
-        { id: 2, name: "BJ", age: 32 },
-        { id: 3, name: "JM", age: 30 },
-        { id: 4, name: "PJ", age: 10 },
-        { id: 5, name: "HA", age: 26 },
-        { id: 6, name: "JE", age: 26 },
-        { id: 7, name: "JI", age: 32 },
-        { id: 8, name: "PJ", age: 40 },
-      ]
-
       let mi = 0
       let fi = 0
 
       // 지연 평가를 시작 시키고 유지(이어 가는)하는 함수
-      // map
+      // map, filter, reject      
       _.go(
         // 길이가 100인 배열을 인덱스 값으로 초기화 후 생성
         _.range(100),
@@ -59,8 +48,6 @@
         console.log
       )
       console.log(mi, fi)
-
-      // filter, reject
 
       // 끝을 내는 함수
       // take
