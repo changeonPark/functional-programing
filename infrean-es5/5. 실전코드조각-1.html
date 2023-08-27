@@ -38,6 +38,8 @@
         { id: 310, body: "댓글10", user_id: 105, post_id: 201 },
       ]
 
+      // 원본 데이터를 사용해 특정 조건의 값을 계산하는 방식
+
       // 1. 특정인의 postList의 모든 commentList 거르기
       // postList를 순회하며 user_id의 value가 101인 값 배열로 return
       const postsBy = (attr) => {
@@ -106,6 +108,115 @@
           })
         },
         console.log
+      )
+
+      console.clear()
+      // userList + postList + commentList ~> index_by와 group_by로 효율성 높이기(반복문 최적화)
+
+      // 데이터를 가공해 중복 순회를 줄이고 효율성 및 불변성을 유지하며 조건의 값을 계산하는 방식
+
+      const users = _.index_by(userList, "id") // loof를 한 번 수행하며 indexing을 했으므로, 아래에서 반복 순회를 하지 않게 됨
+      console.log(users)
+
+      // commentList에 user가 주입된 새로운 commentList
+      // const comments = _.map(commentList, (comment) =>
+      //   _.extend(
+      //     {
+      //       user: findUserById(comment.user_id),
+      //     },
+      //     comment
+      //   )
+      // )
+      // console.log("NEW COMMENT LIST \n", comments)
+
+      const comments = _.go(
+        commentList,
+        _.map((comment) =>
+          _.extend(
+            {
+              user: users[comment.user_id],
+            },
+            comment
+          )
+        ),
+        _.group_by("post_id")
+      )
+      console.log("NEW COMMENT LIST using group_by \n", comments)
+
+      const beforeGroupByPosts = _.go(
+        postList,
+        _.map((post) =>
+          _.extend(
+            {
+              comments: comments[post.id],
+              user: users[post.user_id],
+            },
+            post
+          )
+        )
+      )
+      console.log("Post List not using group_by", beforeGroupByPosts)
+
+      const posts = _.group_by(beforeGroupByPosts, "user_id")
+      console.log("Post List using group_by \n", posts)
+
+      const userListPostComment = _.map(users, (user) => {
+        return _.extend(
+          {
+            posts: posts[user.id] || [],
+          },
+          user
+        )
+      })
+
+      console.log(
+        "유저 별 포스트와 그 포스트 내 코멘트가 집합된 최종 결과물\n",
+        userListPostComment
+      )
+
+      // 특정인의 posts의 모든 comments 거르기
+      const target = userListPostComment[0]
+      console.log("target: ", target)
+
+      // _.go(target.posts, _.pluck("comments"), _.flatten, console.log)
+      // _.go(target, _.deep_pluck("posts.comments"), console.log)
+      console.log("deep_pluck:: ", _.deep_pluck(target, "posts.comments"))
+
+      // 특정인의 posts에 comments를 단 친구의 이름들 뽑기
+      _.go(
+        target.posts,
+        _.pluck("comments"),
+        _.flatten,
+        _.pluck("user"),
+        _.pluck("name"),
+        _.uniq,
+        console.log
+      )
+
+      // pluck을 deep_pluck으로 축약
+      console.log(_.uniq(_.deep_pluck(target, "posts.comments.user.name")))
+
+      // go를 사용해 pipe 구성으로 변경
+      _.go(
+        target,
+        _.deep_pluck("posts.comments.user.name"),
+        _.uniq,
+        console.log
+      )
+
+      // 특정인의 posts에 comments를 단 친구들 카운트 정보
+      _.go(
+        target,
+        _.deep_pluck("posts.comments.user.name"),
+        _.uniq,
+        console.log
+      )
+
+      // 특정인이 comment를 단 posts 거르기
+      console.log(
+        _.filter(beforeGroupByPosts, (post) =>
+          _.find(post.comments, (comment) => comment.user_id === 105)
+        )
       )
     </script>
   </body>
