@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>7. 비동기</title>
+    <script src="js/partial.js"></script>
+  </head>
+  <body>
+    <script>
+      const square = (a) => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(a * a)
+          }, 500)
+        })
+      }
+
+      square(10).then(square).then(square).then(square).then(console.log)
+
+      _.go(square(10), square, square, square, console.log)
+
+      const list = [2, 3, 4]
+
+      new Promise((resolve) => {
+        ;(function recur(res) {
+          if (list.length == res.length) return resolve(res)
+          square(list[res.length]).then(function (val) {
+            res.push(val)
+            recur(res)
+          })
+        })([])
+      }).then(console.log)
+
+      _.go(list, _.map(square), _.map(square), _.map(square), console.log)
+    </script>
+  </body>
+</html>
